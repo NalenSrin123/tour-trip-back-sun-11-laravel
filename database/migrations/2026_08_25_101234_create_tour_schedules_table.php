@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('tour_schedule', function (Blueprint $table) {
@@ -19,7 +16,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('guide_id')
-                ->constrained('guides')
+                ->constrained('guides', 'guide_id')
                 ->cascadeOnDelete();
 
             $table->date('start_date');
@@ -28,16 +25,15 @@ return new class extends Migration
             $table->unsignedInteger('max_capacity');
             $table->unsignedInteger('booked_seats')->default(0);
 
-            $table->enum('status', ['UPCOMING', 'COMPLETED'])
-                ->default('UPCOMING');
+            $table->enum('status', [
+                'UPCOMING',
+                'COMPLETED'
+            ])->default('UPCOMING');
 
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tour_schedule');

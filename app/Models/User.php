@@ -11,8 +11,6 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    protected $primaryKey = 'user_id';
-
     protected $fillable = [
         'role_id',
         'full_name',

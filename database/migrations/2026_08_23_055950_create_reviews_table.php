@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->boolean('is_approved')->default(false);
             $table->timestamps();
             $table->foreign('tour_id')->references('tour_id')->on('tours')->cascadeOnDelete();
-            $table->foreign('user_id')->references('user_id')->on('users')->cascadeOnDelete();
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('booking_id')->references('booking_id')->on('bookings')->cascadeOnDelete();
         });
     }

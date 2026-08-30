@@ -15,12 +15,10 @@ return new class extends Migration
             $table->id('schedule_id');
 
             $table->foreignId('tour_id')
-                ->constrained('tours')
+                ->constrained('tours', 'tour_id')
                 ->cascadeOnDelete();
 
-            $table->foreignId('guide_id')
-                ->constrained('guides')
-                ->cascadeOnDelete();
+            $table->unsignedBigInteger('guide_id');
 
             $table->date('start_date');
             $table->date('end_date');

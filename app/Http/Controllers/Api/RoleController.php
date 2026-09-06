@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
 {
@@ -14,7 +13,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = DB::table('roles')->get();
 
         return response()->json([
             'status' => 'success',
@@ -31,9 +30,13 @@ class RoleController extends Controller
             'role_name' => 'required|string|max:255|unique:roles,role_name',
         ]);
 
-        $role = Role::create([
+        $roleId = DB::table('roles')->insertGetId([
             'role_name' => $request->role_name,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
+        $role = DB::table('roles')->where('role_id', $roleId)->first();
 
         return response()->json([
             'status' => 'success',
@@ -47,7 +50,7 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = Role::find($id);
+        $role = DB::table('roles')->where('role_id', $id)->first();
 
         if (!$role) {
             return response()->json([
@@ -67,7 +70,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $role = Role::find($id);
+        $role = DB::table('roles')->where('role_id', $id)->first();
 
         if (!$role) {
             return response()->json([
@@ -80,14 +83,19 @@ class RoleController extends Controller
             'role_name' => 'required|string|max:255|unique:roles,role_name,' . $id . ',role_id',
         ]);
 
-        $role->update([
-            'role_name' => $request->role_name,
-        ]);
+        DB::table('roles')
+            ->where('role_id', $id)
+            ->update([
+                'role_name' => $request->role_name,
+                'updated_at' => now(),
+            ]);
+
+        $updatedRole = DB::table('roles')->where('role_id', $id)->first();
 
         return response()->json([
             'status' => 'success',
             'message' => 'Role updated successfully',
-            'data' => $role
+            'data' => $updatedRole
         ], 200);
     }
 
@@ -96,7 +104,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::find($id);
+        $role = DB::table('roles')->where('role_id', $id)->first();
 
         if (!$role) {
             return response()->json([
@@ -105,7 +113,7 @@ class RoleController extends Controller
             ], 404);
         }
 
-        $role->delete();
+        DB::table('roles')->where('role_id', $id)->delete();
 
         return response()->json([
             'status' => 'success',

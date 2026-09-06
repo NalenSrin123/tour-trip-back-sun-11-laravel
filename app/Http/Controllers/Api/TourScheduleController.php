@@ -16,12 +16,12 @@ class TourScheduleController extends Controller
     {
         $query = DB::table('tour_schedule')
             ->leftJoin('tours', 'tour_schedule.tour_id', '=', 'tours.tour_id')
-            ->leftJoin('users', 'tour_schedule.guide_id', '=', 'users.id')
+            ->leftJoin('guides', 'tour_schedule.guide_id', '=', 'guides.guide_id')
             ->select(
                 'tour_schedule.*',
                 'tours.title as tour_title',
-                'users.full_name as guide_name',
-                'users.email as guide_email'
+                'guides.full_name as guide_name',
+                'guides.email as guide_email'
             );
 
         if ($request->filled('tour_id')) {
@@ -56,7 +56,7 @@ class TourScheduleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'tour_id' => 'required|integer|exists:tours,tour_id',
-            'guide_id' => 'required|integer|exists:users,id',
+            'guide_id' => 'required|integer|exists:guides,guide_id',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
             'max_capacity' => 'required|integer|min:1',
@@ -89,12 +89,12 @@ class TourScheduleController extends Controller
 
         $schedule = DB::table('tour_schedule')
             ->leftJoin('tours', 'tour_schedule.tour_id', '=', 'tours.tour_id')
-            ->leftJoin('users', 'tour_schedule.guide_id', '=', 'users.id')
+            ->leftJoin('guides', 'tour_schedule.guide_id', '=', 'guides.guide_id')
             ->select(
                 'tour_schedule.*',
                 'tours.title as tour_title',
-                'users.full_name as guide_name',
-                'users.email as guide_email'
+                'guides.full_name as guide_name',
+                'guides.email as guide_email'
             )
             ->where('tour_schedule.schedule_id', $scheduleId)
             ->first();
@@ -113,12 +113,12 @@ class TourScheduleController extends Controller
     {
         $schedule = DB::table('tour_schedule')
             ->leftJoin('tours', 'tour_schedule.tour_id', '=', 'tours.tour_id')
-            ->leftJoin('users', 'tour_schedule.guide_id', '=', 'users.id')
+            ->leftJoin('guides', 'tour_schedule.guide_id', '=', 'guides.guide_id')
             ->select(
                 'tour_schedule.*',
                 'tours.title as tour_title',
-                'users.full_name as guide_name',
-                'users.email as guide_email'
+                'guides.full_name as guide_name',
+                'guides.email as guide_email'
             )
             ->where('tour_schedule.schedule_id', $id)
             ->first();
@@ -157,7 +157,7 @@ class TourScheduleController extends Controller
 
         $validator = Validator::make($request->all(), [
             'tour_id' => 'sometimes|required|integer|exists:tours,tour_id',
-            'guide_id' => 'sometimes|required|integer|exists:users,id',
+            'guide_id' => 'sometimes|required|integer|exists:guides,guide_id',
             'start_date' => 'sometimes|required|date',
             'end_date' => 'sometimes|required|date' . ($startDate ? '|after_or_equal:start_date' : ''),
             'max_capacity' => 'sometimes|required|integer|min:1',
@@ -184,12 +184,12 @@ class TourScheduleController extends Controller
 
         $updatedSchedule = DB::table('tour_schedule')
             ->leftJoin('tours', 'tour_schedule.tour_id', '=', 'tours.tour_id')
-            ->leftJoin('users', 'tour_schedule.guide_id', '=', 'users.id')
+            ->leftJoin('guides', 'tour_schedule.guide_id', '=', 'guides.guide_id')
             ->select(
                 'tour_schedule.*',
                 'tours.title as tour_title',
-                'users.full_name as guide_name',
-                'users.email as guide_email'
+                'guides.full_name as guide_name',
+                'guides.email as guide_email'
             )
             ->where('tour_schedule.schedule_id', $id)
             ->first();

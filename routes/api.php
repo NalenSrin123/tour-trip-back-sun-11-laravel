@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuideController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\TourScheduleController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -53,3 +54,14 @@ Route::delete('/roles/{id}', [RoleController::class, 'destroy']);
 Route::put('/guides/{id}', [GuideController::class, 'update']);
 Route::delete('/guides/{id}', [GuideController::class, 'destroy']);
 Route::apiResource('categories', CategoryController::class);
+
+/*
+|--------------------------------------------------------------------------
+| Tour Schedule API Routes
+|--------------------------------------------------------------------------
+*/
+Route::get('/tour-schedules', [TourScheduleController::class, 'index']);
+Route::post('/tour-schedules', [TourScheduleController::class, 'store']);
+Route::get('/tour-schedules/{id}', [TourScheduleController::class, 'show']);
+Route::put('/tour-schedules/{id}', [TourScheduleController::class, 'update']);
+Route::delete('/tour-schedules/{id}', [TourScheduleController::class, 'destroy']);

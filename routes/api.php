@@ -1,6 +1,8 @@
 <?php
 
+
 use App\Http\Controllers\Api\DestinationController;
+use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TourController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,3 +32,7 @@ Route::post('/destinations', [DestinationController::class, 'store']);
 Route::get('/destinations/{id}', [DestinationController::class, 'show']);
 Route::put('/destinations/{id}', [DestinationController::class, 'update']);
 Route::delete('/destinations/{id}', [DestinationController::class, 'destroy']);
+
+
+
+Route::apiResource('roles', RoleController::class);

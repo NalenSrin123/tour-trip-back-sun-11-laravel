@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::table('tour_schedule', function (Blueprint $table) {
             $table->foreign('guide_id')
-                ->references('guide_id')
-                ->on('guides')
+                ->references('id')
+                ->on('users')
                 ->cascadeOnDelete();
         });
     }

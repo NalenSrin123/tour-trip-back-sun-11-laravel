@@ -16,7 +16,8 @@ class RoleController extends Controller
         $roles = DB::table('roles')->get();
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
+            'message' => 'Roles retrieved successfully',
             'data' => $roles
         ], 200);
     }
@@ -39,7 +40,7 @@ class RoleController extends Controller
         $role = DB::table('roles')->where('role_id', $roleId)->first();
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'Role created successfully',
             'data' => $role
         ], 201);
@@ -54,13 +55,15 @@ class RoleController extends Controller
 
         if (!$role) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Role not found'
+                'success' => false,
+                'message' => 'Role not found',
+                'data' => null
             ], 404);
         }
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
+            'message' => 'Role retrieved successfully',
             'data' => $role
         ], 200);
     }
@@ -74,8 +77,9 @@ class RoleController extends Controller
 
         if (!$role) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Role not found'
+                'success' => false,
+                'message' => 'Role not found',
+                'data' => null
             ], 404);
         }
 
@@ -93,7 +97,7 @@ class RoleController extends Controller
         $updatedRole = DB::table('roles')->where('role_id', $id)->first();
 
         return response()->json([
-            'status' => 'success',
+            'success' => true,
             'message' => 'Role updated successfully',
             'data' => $updatedRole
         ], 200);
@@ -108,16 +112,18 @@ class RoleController extends Controller
 
         if (!$role) {
             return response()->json([
-                'status' => 'error',
-                'message' => 'Role not found'
+                'success' => false,
+                'message' => 'Role not found',
+                'data' => null
             ], 404);
         }
 
         DB::table('roles')->where('role_id', $id)->delete();
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'Role deleted successfully'
+            'success' => true,
+            'message' => 'Role deleted successfully',
+            'data' => null
         ], 200);
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuideController;
+use App\Http\Controllers\Api\CategoryController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -51,3 +52,4 @@ Route::put('/roles/{id}', [RoleController::class, 'update']);
 Route::delete('/roles/{id}', [RoleController::class, 'destroy']);
 Route::put('/guides/{id}', [GuideController::class, 'update']);
 Route::delete('/guides/{id}', [GuideController::class, 'destroy']);
+Route::apiResource('categories', CategoryController::class);

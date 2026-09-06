@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DestinationController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TourController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuideController;
@@ -51,3 +52,7 @@ Route::put('/roles/{id}', [RoleController::class, 'update']);
 Route::delete('/roles/{id}', [RoleController::class, 'destroy']);
 Route::put('/guides/{id}', [GuideController::class, 'update']);
 Route::delete('/guides/{id}', [GuideController::class, 'destroy']);
+
+
+Route::put('/bookings/{id}', [BookingController::class, 'update']);
+Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);

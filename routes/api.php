@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\DestinationController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\TourController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GuideController;
@@ -65,3 +66,7 @@ Route::post('/tour-schedules', [TourScheduleController::class, 'store']);
 Route::get('/tour-schedules/{id}', [TourScheduleController::class, 'show']);
 Route::put('/tour-schedules/{id}', [TourScheduleController::class, 'update']);
 Route::delete('/tour-schedules/{id}', [TourScheduleController::class, 'destroy']);
+
+
+Route::put('/bookings/{id}', [BookingController::class, 'update']);
+Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);

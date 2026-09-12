@@ -2,95 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Guide;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
+use App\Http\Resources\GuideResource;
 
 class GuideController extends Controller
 {
-    //Edite Guide
-    public function update(Request $request, $id)
+  // Get all guides or list of guides
+    public function index()
     {
-        // validate request data
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'required|email|max:255',
-        ]);
-
-        //check if the guide exists
-        $guide = DB::table('guides')
-            ->where('guide_id', $id)
-            ->first();
-        
-        if (!$guide) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Guide not found'
-            ], 404);
-        }
-
-        //check email belong to another guide
-        $emailExists = DB::table('guides')
-            ->where('email', $request->email)
-            ->where('guide_id', '!=', $id)
-            ->exists();
-
-        if ($emailExists) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Email is already used by another guide'
-            ], 422);
-        }
-
-        //update guide
-        DB::table('guides')
-            ->where('guide_id', $id)
-            ->update([
-                'full_name' => $request->full_name,
-                'phone' => $request->phone,
-                'email' => $request->email,
-                'updated_at' => now(),
-            ]);
-
-        //Get the updated guide
-        $updatedGuide = DB::table('guides')
-            ->where('guide_id', $id)
-            ->first();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Guide updated successfully',
-            'data' => $updatedGuide
-        ], 200);
-
+        $guides = Guide::latest()->get();
+        return GuideResource::collection($guides);
     }
 
-    //Delete Guide
-
-    public function destroy($id)
+    // Create a new Guide
+    public function store(Request $request)
     {
-        //check if the guide exists
-        $guide = DB::table('guides')
-            ->where('guide_id', $id)
-            ->first();
-        
-        if (!$guide) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Guide not found'
-            ], 404);
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'phone'     => 'nullable|string|max:20',
+            'email'     => 'required|email|unique:guides,email',
+            'password'  => 'required|string|min:6',
+        ]);
+
+        $guide = Guide::create([
+            'full_name'     => $validated['full_name'],
+            'phone'         => $validated['phone'] ?? null,
+            'email'         => $validated['email'],
+            'password_hash' => $validated['password'],
+        ]);
+
+        return new GuideResource($guide);
+    }
+
+    // get a specific Guide
+    // public function show(string $id)
+    // {
+    //     $guide = Guide::findOrFail($id);
+    //     return new GuideResource($guide);
+    // }
+
+    // Edit a Guide
+    public function update(Request $request, string $id)
+    {
+        $guide = Guide::findOrFail($id);
+
+        $validated = $request->validate([
+            'full_name' => 'sometimes|string|max:255',
+            'phone'     => 'nullable|string|max:20',
+            'email'     => ['sometimes', 'email', Rule::unique('guides', 'email')->ignore($guide->guide_id, 'guide_id')],
+            'password'  => 'nullable|string|min:6',
+        ]);
+
+        if (isset($validated['password'])) {
+            $validated['password_hash'] = $validated['password'];
+            unset($validated['password']);
         }
 
-        //delete guide
-        DB::table('guides')
-            ->where('guide_id', $id)
-            ->delete();
+        $guide->update($validated);
+
+        return new GuideResource($guide);
+    }
+
+    // Delete a Guide
+    public function destroy(string $id)
+    {
+        $guide = Guide::findOrFail($id);
+        $guide->delete();
 
         return response()->json([
-            'success' => true,
             'message' => 'Guide deleted successfully'
         ], 200);
     }
-
+   
 }

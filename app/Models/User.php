@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens; // 1. Import Sanctum
 
 class User extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable; // 2. Add trait here
+
     protected $fillable = [
         'role_id',
         'full_name',
@@ -24,9 +25,6 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * Override default Laravel password column name for authentication
-     */
     public function getAuthPassword(): string
     {
         return $this->password_hash;

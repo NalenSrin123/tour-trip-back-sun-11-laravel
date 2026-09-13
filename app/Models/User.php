@@ -9,29 +9,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     protected $fillable = [
         'role_id',
         'full_name',
         'email',
         'phone',
-        'password_hash',
+        'password',
     ];
 
     protected $hidden = [
-        'password_hash',
+        'password',
         'remember_token',
     ];
-
-    /**
-     * Override default Laravel password column name for authentication
-     */
-    public function getAuthPassword(): string
-    {
-        return $this->password_hash;
-    }
 
     public function role(): BelongsTo
     {

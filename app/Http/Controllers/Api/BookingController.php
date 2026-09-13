@@ -42,8 +42,8 @@ class BookingController extends Controller
 
         $bookings = $query
             ->orderBy('bookings.booking_id', 'desc')
-            ->paginate($request->integer('per_page', 15));
-
+            ->get();
+            
         return response()->json([
             'status' => true,
             'message' => 'Bookings retrieved successfully',

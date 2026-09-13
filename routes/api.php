@@ -82,14 +82,10 @@
     Route::apiResource('guides', GuideController::class);
 
 
-   /*
+    /*
     |--------------------------------------------------------------------------
     | Customer API Routes
     |--------------------------------------------------------------------------
     */
+    Route::apiResource('customers', CustomerController::class);
 
-    Route::prefix('customers')->group(function () {
-    Route::get('/customers', [CustomerController::class, 'index']);
-    Route::post('/customer', [CustomerController::class, 'store']);
-    
-});

@@ -6,24 +6,18 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('guides', function (Blueprint $table) {
             $table->id('guide_id');
             $table->string('full_name');
-            $table->string('phone', 20)->nullable();
+            $table->string('phone')->nullable();
             $table->string('email')->unique();
             $table->string('password_hash');
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('guides');

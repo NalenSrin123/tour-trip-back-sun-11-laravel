@@ -11,6 +11,8 @@
     use App\Http\Controllers\GuideController;
     use App\Http\Controllers\Api\CategoryController;
     use App\Http\Controllers\Api\TourScheduleController;
+    use App\Http\Controllers\Api\CustomerController;
+    
 
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -73,3 +75,16 @@
     Route::put('/bookings/{id}', [BookingController::class, 'update']);
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy']);
     Route::apiResource('guides', GuideController::class);
+
+
+   /*
+    |--------------------------------------------------------------------------
+    | Customer API Routes
+    |--------------------------------------------------------------------------
+    */
+
+    Route::prefix('customers')->group(function () {
+    Route::get('/customers', [CustomerController::class, 'index']);
+    Route::post('/customer', [CustomerController::class, 'store']);
+    
+});

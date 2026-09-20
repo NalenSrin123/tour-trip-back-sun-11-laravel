@@ -91,18 +91,16 @@
     */
     Route::apiResource('customers', CustomerController::class);
     /*
-     /*
     |--------------------------------------------------------------------------
     | Payment API Routes
     |--------------------------------------------------------------------------
     */
-
-
     Route::get('/payments', [PaymentController::class, 'index']);
     Route::post('/payments', [PaymentController::class, 'store']);
-    Route::get('/payments/{id}', [PaymentController::class, 'show']);
-    Route::put('/payments/{id}', [PaymentController::class, 'update']);
-    Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
+    Route::get('/payments/{id}', [PaymentController::class, 'show'])->whereNumber('id');
+    Route::put('/payments/{id}', [PaymentController::class, 'update'])->whereNumber('id');
+    Route::patch('/payments/{id}', [PaymentController::class, 'update'])->whereNumber('id');
+    Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->whereNumber('id');
 
 
     /*

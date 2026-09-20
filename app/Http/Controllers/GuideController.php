@@ -10,7 +10,7 @@ use App\Http\Resources\GuideResource;
 
 class GuideController extends Controller
 {
-  // Get all guides or list of guides
+    // Get all guides or list of guides
     public function index()
     {
         $guides = Guide::latest()->get();
@@ -76,5 +76,4 @@ class GuideController extends Controller
             'message' => 'Guide deleted successfully'
         ], 200);
     }
-   
 }

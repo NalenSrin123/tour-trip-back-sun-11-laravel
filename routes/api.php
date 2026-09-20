@@ -12,6 +12,8 @@
     use App\Http\Controllers\Api\CategoryController;
     use App\Http\Controllers\Api\TourScheduleController;
     use App\Http\Controllers\Api\CustomerController;
+    use App\Http\Controllers\Api\PaymentController;
+
     
 
     Route::get('/user', function (Request $request) {
@@ -88,4 +90,17 @@
     |--------------------------------------------------------------------------
     */
     Route::apiResource('customers', CustomerController::class);
+        /*
+     /*
+    |--------------------------------------------------------------------------
+    | Payment API Routes
+    |--------------------------------------------------------------------------
+    */
+
+
+    Route::get('/payments', [PaymentController::class, 'index']);
+    Route::post('/payments', [PaymentController::class, 'store']);
+    Route::get('/payments/{id}', [PaymentController::class, 'show']);
+    Route::put('/payments/{id}', [PaymentController::class, 'update']);
+    Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 

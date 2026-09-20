@@ -14,6 +14,9 @@ use Throwable;
 
 class GuideController extends Controller
 {
+
+    // Get all guides or list of guides
+
     use ApiResponse;
 
     // Get all guides

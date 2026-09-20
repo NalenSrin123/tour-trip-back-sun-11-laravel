@@ -13,8 +13,7 @@
     use App\Http\Controllers\Api\TourScheduleController;
     use App\Http\Controllers\Api\CustomerController;
     use App\Http\Controllers\Api\PaymentController;
-
-    
+    use App\Http\Controllers\Api\BookingTravelerController;
 
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -104,3 +103,13 @@
     Route::put('/payments/{id}', [PaymentController::class, 'update']);
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy']);
 
+
+    /*
+    |--------------------------------------------------------------------------
+    | Booking traveler API Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/booking-travelers/{bookingId}', [BookingTravelerController::class, 'index']);
+    Route::post('/booking-travelers', [BookingTravelerController::class, 'store']);
+    Route::put('/booking-travelers/{id}', [BookingTravelerController::class, 'update']);
+    Route::delete('/booking-travelers/{id}', [BookingTravelerController::class, 'destroy']);

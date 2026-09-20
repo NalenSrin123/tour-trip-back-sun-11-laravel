@@ -14,6 +14,7 @@
     use App\Http\Controllers\Api\CustomerController;
     use App\Http\Controllers\Api\PaymentController;
     use App\Http\Controllers\Api\BookingTravelerController;
+    use App\Http\Controllers\Api\ReviewController;
 
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -89,7 +90,7 @@
     |--------------------------------------------------------------------------
     */
     Route::apiResource('customers', CustomerController::class);
-        /*
+    /*
      /*
     |--------------------------------------------------------------------------
     | Payment API Routes
@@ -113,3 +114,12 @@
     Route::post('/booking-travelers', [BookingTravelerController::class, 'store']);
     Route::put('/booking-travelers/{id}', [BookingTravelerController::class, 'update']);
     Route::delete('/booking-travelers/{id}', [BookingTravelerController::class, 'destroy']);
+
+
+    // Public / Read routes
+    Route::get('/reviews', [ReviewController::class, 'index']);
+    Route::get('/reviews/{id}', [ReviewController::class, 'show']);
+    // Protected / Write routes (add auth middleware if required)
+    Route::post('/reviews', [ReviewController::class, 'store']);
+    Route::put('/reviews/{id}', [ReviewController::class, 'update']);
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy']);
